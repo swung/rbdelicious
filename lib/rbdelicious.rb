@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'httparty'
 require 'cgi'
+require 'digest/md5'
 
 module RBDelicious
   
@@ -10,7 +11,7 @@ module RBDelicious
 
     def initialize(options={})
       config = YAML::load(File.read(File.join(ENV['HOME'],'.delicious')))
-      options.merge!(config)
+      options.merge!(config) {|k, v1, v2| v1}
       self.class.base_uri options['base_uri'] unless options['base_uri'].nil?
       if !options['proxy_host'].nil?
         port = options['proxy_proxy'].nil? ? 80 : options['proxy_port'].to_i
@@ -53,6 +54,15 @@ module RBDelicious
     def self.dlcs_rss_request(tag = "", popular = 0, user = "", url = "")
       tag = CGI::escape(tag)
       user = CGI::escape(user)
+
+      hc = HttpClient.new(:base_uri => "http://del.icio.us/rss")
+
+      if url != ""
+        url = "/url/#{Digest::MD5.hexdigest(url)}"
+      else if
+      else
+
+      end
     end
   end
 end
