@@ -59,9 +59,18 @@ module RBDelicious
 
       if url != ""
         url = "/url/#{Digest::MD5.hexdigest(url)}"
-      else if
-      else
-
+      else if user != "" && tag != ""
+        url = "/#{user}/#{tag}"
+      else if user != "" && tag == ""
+        url = "/#{user}"
+      else if popular == 0 && tag == ""
+        url = "/" 
+      else if popular == 0 && tag != ""
+        url = "/tag/#{tag}"
+      else if popular == 1 && tag == ""
+        url = "/popular"
+      else if popular == 1 && tag != ""
+        url = "/popular/#{tag}"
       end
     end
   end
